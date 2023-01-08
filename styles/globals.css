@@ -24,3 +24,6 @@ a {
     background: black;
   }
 }
+input[type=number]::-webkit-inner-spin-button {
+  background-color: white;
+}

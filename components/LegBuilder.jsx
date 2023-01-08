@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import Futures from "./Segments/Futures";
+import Options from "./Segments/Options";
 
 function LegBuilder() {
   const [futures, setFutures] = useState(true);
@@ -10,9 +12,9 @@ function LegBuilder() {
   const closeFutures = () => {
     setFutures(false);
   };
-  console.log(futures);
+
   return (
-    <Container>
+    <>
       <Segments>
         <p>Select Segments</p>
         <div>
@@ -24,29 +26,18 @@ function LegBuilder() {
           </AlternateSegmentButton>
         </div>
       </Segments>
-        <FutureSegment>
-          <div>
-            <p>Total Lot</p>
-            <input type="number" />
-          </div>
-          <div>
-            <p>Position</p>
-            <select>
-              <option value="Buy">Buy</option>
-              <option value="Sell">Sell</option>
-            </select>
-          </div>
-        </FutureSegment>]
-        
-        
-
-    </Container>
+      <form>
+      {futures ? <Futures /> : <Options />}
+      <ButtonSection>
+        <AddLeg>Add Leg</AddLeg>
+        <Cancel>Cancel</Cancel>
+      </ButtonSection>
+      </form>
+    </>
   );
 }
 
-const Container = styled.div`
-  background-color: #f6f6f6;
-`;
+
 
 const Segments = styled.div`
   display: flex;
@@ -57,7 +48,6 @@ const Segments = styled.div`
     margin-right: 5px;
   }
 `;
-
 
 const SegmentButton = styled.button`
   background-color: ${(props) => (props.futures ? "#375a9e" : "white")};
@@ -75,14 +65,29 @@ const AlternateSegmentButton = styled.button`
   padding: 0.45rem;
 `;
 
-const FutureSegment=styled.div`
-    display: flex;
-    justify-content: center;
-`
-const OptionSegment=styled.div`
-    display: flex;
-    justify-content: center;
+const ButtonSection = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1rem;
+`;
 
+const AddLeg = styled.button`
+  background-color: #375a9e;
+  color: white;
+  border: 1px solid #375a9e;
+  border-radius: 16px;
+  padding: 0.45rem;
+`;
+
+const Cancel=styled.button`
+  color: black;
+  background-color: white;
+  border: 1px solid white;
+  border-radius: 16px;
+  padding: 0.45rem;
 `
+
 
 export default LegBuilder;
