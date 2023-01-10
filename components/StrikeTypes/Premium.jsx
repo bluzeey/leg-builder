@@ -6,11 +6,11 @@ function Premium({globalState,setGlobalState}) {
     <>
       <div>
         <p>Lower Range</p>
-        <Input type="number"/>
+        <Input value={globalState.LowerRange} onChange={(e)=>setGlobalState({...globalState,LowerRange:e.target.value})} type="number"/>
       </div>
       <div>
         <p>Upper Range</p>
-        <Input type="number"/>
+        <Input value={globalState.UpperRange} onChange={(e)=>setGlobalState({...globalState,UpperRange:e.target.value})} type="number"/>
       </div>
     </>
   )

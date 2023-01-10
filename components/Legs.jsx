@@ -7,7 +7,7 @@ function Legs({legs,setLegs}) {
     <LegContainer>
       {legs?.map((item,index)=>
       <>
-        <Leg key={index} item={item} index={index} setLegs={setLegs}/>
+        <Leg key={index} item={item} index={index} legs={legs} setLegs={setLegs}/>
       </>)}
     </LegContainer>
   )

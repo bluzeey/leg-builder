@@ -6,7 +6,7 @@ function Futures({globalState,setGlobalState}) {
     <FutureSegment>
     <div>
       <Title>Total Lot</Title>
-      <TotalLots type="number" defaultValue={1} value={globalState?.Lots} onChange={(e)=>setGlobalState({...globalState,Lots:e.target.value})}/>
+      <TotalLots type="number"  value={globalState?.Lots} onChange={(e)=>setGlobalState({...globalState,Lots:e.target.value})}/>
     </div>
     <div>
       <p>Position</p>

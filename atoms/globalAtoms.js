@@ -15,17 +15,11 @@ export const globalAtom = atom({
     StrikeParameter: null,
     Adjustment: null,
     Multiplier: null,
-    LegTrailSL: {
-      Type: null | "Points" | "Percentage",
-      Value: {
-        InstrumentMove: 0,
-        StopLossMove: 0,
-      },
-    },
-    LegMomentum: {
-      Type: null | "PointsUp" | "PointsDown",
-      Value: 0,
-    },
+    LegTrailSLType:null | "Points" | "Percentage",
+    LegTrailSLInstrumentMove:0,
+    LegTrailSLStopLossMove:0,
+    LegMomentumType:null | "PointsUp" | "PointsDown",
+    LegMomentumValue:0
   },
 });
 

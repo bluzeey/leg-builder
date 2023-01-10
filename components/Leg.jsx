@@ -1,44 +1,44 @@
-import React,{useState} from "react";
+import React,{useState , useEffect} from "react";
 import styled from "styled-components";
+import Momentum from "./LegFeatures/Momentum";
+import TrailSL from "./LegFeatures/TrailSL";
 import Futures from "./Segments/Futures";
 import Options from "./Segments/Options";
 
-function Leg({ item ,index}) {
+function Leg({ item ,index , legs, setLegs}) {
   const [data,setData]=useState(item)
+  
+
+  useEffect(()=>{
+    if(legs && index && data){
+      const newArray=legs
+      newArray[index]=data
+      setLegs([...newArray])
+    }
+  },[data])
+
+  const removeValue=(index)=>{
+    let newArray=legs
+    newArray= newArray.slice(0,index).concat(newArray.slice(index+1))
+    setLegs([...newArray])
+  }
+  const copyValue=(data)=>{
+    let newArray=[...legs,data]
+    setLegs(newArray)
+  }
+
   return (
     <LegContainer>
       <CopyDeleteContainer>
-        <img src='./close.svg'/>
-        <img src='./copy.svg'/>
+        <img src='./close.svg' onClick={()=>removeValue(index)}/>
+        <img src='./copy.svg' onClick={()=>copyValue(data)}/>
       </CopyDeleteContainer>
       <div>
         {item.instrument==='future' ? <Futures globalState={data} setGlobalState={setData}/> : <Options  globalState={data} setGlobalState={setData}/>}
       </div>
       <Effects>
-        <div>
-          <p>
-            <input type="checkbox" /> Simple Momentum
-          </p>
-          <div>
-            <Select>
-              <option value="Percentage↑">Percentage↑</option>
-            </Select>
-            <Input type="number" />
-          </div>
-        </div>
-        <div>
-          <p>
-            <input type="checkbox" /> Trail SL
-          </p>
-          <div>
-            <Select>
-              <option value="Points">Points</option>
-              <option value="Percentage">Percentage</option>
-            </Select>
-            <Input type="number" />
-            <Input type="number" />
-          </div>
-        </div>
+         <Momentum data={data} setData={setData}/>
+         <TrailSL data={data} setData={setData}/>
       </Effects>
     </LegContainer>
   );
