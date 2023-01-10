@@ -6,10 +6,24 @@ import { useState } from 'react'
 import Legs from '../components/Legs'
 import { useRecoilState } from 'recoil'
 import { globalAtom } from '../atoms/globalAtoms'
+import { db } from '../firebase/clientApp';
+import { doc, setDoc, getDoc } from "firebase/firestore"; 
 
 export default function Home() {
   const [legs,setLegs]=useState([])
   const [globalState,setGlobalState]=useRecoilState(globalAtom)
+  
+  const handleSubmit=async(legs)=>{
+    await setDoc(doc(db, "legs", "user"), {
+      legs
+    });
+  }
+
+  const fetchDocs=async()=>{
+    const legdoc=await getDoc(doc(db, "legs", "user"))
+    setLegs(legdoc.data().legs)
+  }
+  
   return (
     <Container>
       <Head>
@@ -20,14 +34,39 @@ export default function Home() {
       <Header/>
       <LegBuilder legs={legs} setLegs={setLegs} globalState={globalState} setGlobalState={setGlobalState}/>
       <Legs legs={legs} setLegs={setLegs}/>
-      <div>
-        <button>Fetch</button>
-        <button>Submit</button>
-      </div>
+      <ButtonSection>
+          <Fetch onClick={()=>fetchDocs()}>Fetch</Fetch>
+          <Submit onClick={()=>handleSubmit(legs)}>Submit</Submit>
+      </ButtonSection>
     </Container>
   )
 }
 
 const Container = styled.div`
   background-color: #f6f6f6;
+  min-height: 100vh;
+`;
+
+const ButtonSection = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1rem;
+`;
+
+const Fetch = styled.button`
+  background-color: #375a9e;
+  color: white;
+  border: 1px solid #375a9e;
+  border-radius: 16px;
+  padding: 0.45rem;
+`;
+
+const Submit = styled.button`
+  color: black;
+  background-color: white;
+  border: 1px solid white;
+  border-radius: 16px;
+  padding: 0.45rem;
 `;
