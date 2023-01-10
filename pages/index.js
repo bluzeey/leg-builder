@@ -1,10 +1,15 @@
 import Head from 'next/head'
 import Header from '../components/Header'
-import Leg from '../components/Leg'
 import LegBuilder from '../components/LegBuilder'
 import styled from 'styled-components'
+import { useState } from 'react'
+import Legs from '../components/Legs'
+import { useRecoilState } from 'recoil'
+import { globalAtom } from '../atoms/globalAtoms'
 
 export default function Home() {
+  const [legs,setLegs]=useState([])
+  const [globalState,setGlobalState]=useRecoilState(globalAtom)
   return (
     <Container>
       <Head>
@@ -13,8 +18,12 @@ export default function Home() {
         <link rel="icon" href="/logo.svg" />
       </Head>
       <Header/>
-      <LegBuilder/>
-      <Leg/>
+      <LegBuilder legs={legs} setLegs={setLegs} globalState={globalState} setGlobalState={setGlobalState}/>
+      <Legs legs={legs} setLegs={setLegs}/>
+      <div>
+        <button>Fetch</button>
+        <button>Submit</button>
+      </div>
     </Container>
   )
 }

@@ -1,16 +1,16 @@
 import React from 'react'
 import styled from 'styled-components'
 
-function Futures() {
+function Futures({globalState,setGlobalState}) {
   return (
     <FutureSegment>
     <div>
       <Title>Total Lot</Title>
-      <TotalLots type="number" />
+      <TotalLots type="number" defaultValue={1} value={globalState?.Lots} onChange={(e)=>setGlobalState({...globalState,Lots:e.target.value})}/>
     </div>
     <div>
       <p>Position</p>
-      <Select>
+      <Select onChange={(e)=>setGlobalState({...globalState,PositionType:e.target.value})}>
         <option value="Buy">Buy</option>
         <option value="Sell">Sell</option>
       </Select>

@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-function Default() {
+function Default({globalState,setGlobalState}) {
   const strikeTypes = [
     "ITM10",
     "ITM9",
@@ -29,7 +29,7 @@ function Default() {
   return (
     <div>
     <p>Strike Type</p>
-      <Select>
+      <Select defaultValue={'ATM'} value={globalState?.StrikeParameter} onChange={(e)=>setGlobalState({...globalState,StrikeParameter:e.target.value})}>
         {strikeTypes.map(strike=>
             <option value={strike}>{strike}</option>)}
       </Select>

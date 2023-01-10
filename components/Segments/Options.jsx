@@ -1,57 +1,55 @@
-import React, { useState, useEffect, use } from "react";
+import React, { useState, useEffect} from "react";
 import styled from "styled-components";
 import Closest from "../StrikeTypes/Closest";
 import Default from "../StrikeTypes/Default";
 import Premium from "../StrikeTypes/Premium";
 import Straddle from "../StrikeTypes/Straddle";
-import Leg from "../Leg";
 
-function Options() {
-  const [strikeType, setStrikeType] = useState("Strike Type");
+function Options({globalState,setGlobalState}) {
   const [strikeComponent, setStrikeComponent] = useState(null);
 
-  const handleComponent = (strikeType) => {
-    if (strikeType == "Strike Type") {
-      setStrikeComponent(<Default />);
-    } else if (strikeType == "Premium Range") {
-      setStrikeComponent(<Premium />);
-    } else if (strikeType == "Closest Premium") {
-      setStrikeComponent(<Closest />);
+  const handleComponent = (globalState,setGlobalState) => {
+  if (globalState?.EntryType == "Strike Type") {
+      setStrikeComponent(<Default globalState={globalState} setGlobalState={setGlobalState} />);
+    } else if (globalState?.EntryType == "Premium Range") {
+      setStrikeComponent(<Premium globalState={globalState} setGlobalState={setGlobalState} />);
+    } else if (globalState?.EntryType == "Closest Premium") {
+      setStrikeComponent(<Closest globalState={globalState} setGlobalState={setGlobalState} />);
     } else {
-      setStrikeComponent(<Straddle />);
+      setStrikeComponent(<Straddle globalState={globalState} setGlobalState={setGlobalState} />);
     }
   };
-  useEffect(() => handleComponent(strikeType), [strikeType]);
+  useEffect(() => handleComponent(globalState,setGlobalState), [globalState?.EntryType]);
   return (
     <OptionSegment>
       <div>
         <Title>Total Lot</Title>
-        <TotalLots type="number" />
+        <TotalLots type="number" defaultValue={1} value={globalState?.Lots} onChange={(e)=>setGlobalState({...globalState,Lots:e.target.value})}/>
       </div>
       <div>
         <p>Position</p>
-        <Select>
+        <Select value={globalState.PositionType} onChange={(e) => setGlobalState({...globalState,PositionType:e.target.value})}>
           <option value="Buy">Buy</option>
           <option value="Sell">Sell</option>
         </Select>
       </div>
       <div>
         <p>Option Type</p>
-        <Select>
+        <Select value={globalState.optionType}  onChange={(e) => setGlobalState({...globalState,optionType:e.target.value})}>
           <option value="Buy">Call</option>
           <option value="Sell">Sell</option>
         </Select>
       </div>
       <div>
         <p>Expiry Type</p>
-        <Select>
+        <Select value={globalState.ExpiryKind} onChange={(e) => setGlobalState({...globalState,ExpiryKind:e.target.value})}>
           <option value="Weekly">Weekly</option>
           <option value="Monthly">Monthly</option>
         </Select>
       </div>
       <div>
         <p>Strike Selection Criteria</p>
-        <Select onChange={(e) => setStrikeType(e.target.value)}>
+        <Select value={globalState.EntryType} onChange={(e) => setGlobalState({...globalState,EntryType:e.target.value})}>
           <option value="Strike Type">Strike Type</option>
           <option value="Premium Range">Premium Range</option>
           <option value="Closest Premium">Closest Premium</option>

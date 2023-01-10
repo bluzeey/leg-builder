@@ -1,12 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
 
-function Closest() {
+function Closest({globalState,setGlobalState}) {
   return (
     <>
     <div>
         <p>Premium</p>
-        <Input type="number"/>
+        <Input value={globalState.PremiumRange} onChange={(e)=>setGlobalState({...globalState,PremiumRange:e.target.value})} type="number" defaultValue={1} />
     </div>
     </>
   )

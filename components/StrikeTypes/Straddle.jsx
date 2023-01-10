@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-function Straddle() {
+function Straddle({globalState,setGlobalState}) {
   return (
     <p>[ATM Strike
         <Select>

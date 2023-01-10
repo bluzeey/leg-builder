@@ -1,43 +1,46 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import Futures from "./Segments/Futures";
 import Options from "./Segments/Options";
 
-function LegBuilder() {
-  const [futures, setFutures] = useState(true);
-
-  const showFutures = () => {
-    setFutures(true);
-  };
-  const closeFutures = () => {
-    setFutures(false);
-  };
-
+function LegBuilder({ legs, setLegs, globalState, setGlobalState }) {
   return (
     <>
       <Segments>
         <p>Select Segments</p>
         <div>
-          <SegmentButton futures={futures} onClick={showFutures}>
+          <SegmentButton
+            type={globalState.instrument}
+            onClick={() =>
+              setGlobalState({ ...globalState, instrument: "future" })
+            }
+          >
             Futures
           </SegmentButton>
-          <AlternateSegmentButton futures={futures} onClick={closeFutures}>
+          <AlternateSegmentButton
+            type={globalState.instrument}
+            onClick={() =>
+              setGlobalState({ ...globalState, instrument: "options" })
+            }
+          >
             Options
           </AlternateSegmentButton>
         </div>
       </Segments>
-      <form>
-      {futures ? <Futures /> : <Options />}
-      <ButtonSection>
-        <AddLeg>Add Leg</AddLeg>
-        <Cancel>Cancel</Cancel>
-      </ButtonSection>
-      </form>
+        {globalState.instrument === "future" ? (
+          <Futures globalState={globalState} setGlobalState={setGlobalState} />
+        ) : (
+          <Options globalState={globalState} setGlobalState={setGlobalState} />
+        )}
+        <ButtonSection>
+          <AddLeg onClick={()=>setLegs([
+            ...legs,globalState
+          ])}>Add Leg</AddLeg>
+          <Cancel>Cancel</Cancel>
+        </ButtonSection>
     </>
   );
 }
-
-
 
 const Segments = styled.div`
   display: flex;
@@ -50,16 +53,18 @@ const Segments = styled.div`
 `;
 
 const SegmentButton = styled.button`
-  background-color: ${(props) => (props.futures ? "#375a9e" : "white")};
-  color: ${(props) => (props.futures ? "white" : "black")};
+  background-color: ${(props) =>
+    props.type === "future" ? "#375a9e" : "white"};
+  color: ${(props) => (props.type === "future" ? "white" : "black")};
   border: 1px solid #f6f6f6;
   border-radius: 16px 0px 0px 16px;
   padding: 0.45rem;
 `;
 
 const AlternateSegmentButton = styled.button`
-  background-color: ${(props) => (props.futures ? "white" : "#375a9e")};
-  color: ${(props) => (props.futures ? "black" : "white")};
+  background-color: ${(props) =>
+    props.type === "future" ? "white" : "#375a9e"};
+  color: ${(props) => (props.type === "future" ? "black" : "white")};
   border: 1px solid #f6f6f6;
   border-radius: 0px 16px 16px 0px;
   padding: 0.45rem;
@@ -81,13 +86,12 @@ const AddLeg = styled.button`
   padding: 0.45rem;
 `;
 
-const Cancel=styled.button`
+const Cancel = styled.button`
   color: black;
   background-color: white;
   border: 1px solid white;
   border-radius: 16px;
   padding: 0.45rem;
-`
-
+`;
 
 export default LegBuilder;
