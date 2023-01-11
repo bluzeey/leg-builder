@@ -8,6 +8,7 @@ import { useRecoilState } from 'recoil'
 import { globalAtom } from '../atoms/globalAtoms'
 import { db } from '../firebase/clientApp';
 import { doc, setDoc, getDoc } from "firebase/firestore"; 
+import Swal from 'sweetalert2'
 
 export default function Home() {
   const [legs,setLegs]=useState([])
@@ -17,6 +18,15 @@ export default function Home() {
     await setDoc(doc(db, "legs", "user"), {
       legs
     });
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+    })
+    Toast.fire({
+      icon: 'success',
+      title: 'Data Saved'
+    })
   }
 
   const fetchDocs=async()=>{
@@ -60,7 +70,8 @@ const Fetch = styled.button`
   color: white;
   border: 1px solid #375a9e;
   border-radius: 16px;
-  padding: 0.45rem;
+  padding: 0.45rem 1rem;
+  cursor: pointer;
 `;
 
 const Submit = styled.button`
@@ -68,5 +79,6 @@ const Submit = styled.button`
   background-color: white;
   border: 1px solid white;
   border-radius: 16px;
-  padding: 0.45rem;
+  padding: 0.45rem 1rem;
+  cursor: pointer;
 `;

@@ -83,7 +83,8 @@ const AddLeg = styled.button`
   color: white;
   border: 1px solid #375a9e;
   border-radius: 16px;
-  padding: 0.45rem;
+  padding: 0.45rem 1rem;
+  cursor: pointer;
 `;
 
 const Cancel = styled.button`
@@ -91,7 +92,8 @@ const Cancel = styled.button`
   background-color: white;
   border: 1px solid white;
   border-radius: 16px;
-  padding: 0.45rem;
+  padding: 0.45rem 1rem;
+  cursor: pointer;
 `;
 
 export default LegBuilder;

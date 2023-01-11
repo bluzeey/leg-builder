@@ -46,6 +46,7 @@ const Select = styled.select`
   color: white;
   border: 1px solid #375a9e;
   border-radius: 16px;
+  padding:0.2rem 0.5rem;
 `;
 
 const Input = styled.input`
@@ -55,6 +56,7 @@ const Input = styled.input`
   border-radius: 16px;
   width: 5rem;
   margin: 0 1rem;
+  padding:0.2rem 0.5rem;
 `;
 
 export default TrailSL;
