@@ -1,33 +1,35 @@
-import React from "react";
+import React , {useRef,useState} from "react";
 import styled from "styled-components";
 import Futures from "./Segments/Futures";
 import Options from "./Segments/Options";
 
 function LegBuilder({ legs, setLegs, globalState, setGlobalState }) {
+  const [instrument,setInstrument]=useState('future')
   return (
     <>
       <Segments>
         <p>Select Segments</p>
         <div>
           <SegmentButton
-            type={globalState.instrument}
-            onClick={() =>
-              setGlobalState({ ...globalState, instrument: "future" })
-            }
+            instrument={instrument}
+            onClick={() =>{
+              setInstrument('future')
+            }}
           >
             Futures
           </SegmentButton>
-          <AlternateSegmentButton
-            type={globalState.instrument}
-            onClick={() =>
-              setGlobalState({ ...globalState, instrument: "options" })
-            }
+          <AlternateButton
+            instrument={instrument}
+            reverse={true}
+            onClick={() =>{
+              setInstrument('options')
+            }}
           >
             Options
-          </AlternateSegmentButton>
+          </AlternateButton>
         </div>
       </Segments>
-        {globalState.instrument === "future" ? (
+        {instrument === "future" ? (
           <Futures globalState={globalState} setGlobalState={setGlobalState} />
         ) : (
           <Options globalState={globalState} setGlobalState={setGlobalState} />
@@ -53,22 +55,18 @@ const Segments = styled.div`
 `;
 
 const SegmentButton = styled.button`
-  background-color: ${(props) =>
-    props.type === "future" ? "#375a9e" : "white"};
-  color: ${(props) => (props.type === "future" ? "white" : "black")};
+  background-color: ${prop => prop.instrument==='future' ? '#375a9e' : 'white'};
+  color:${prop => prop.instrument ==='future' ? 'white ' : 'black'};
   border: 1px solid #f6f6f6;
-  border-radius: 16px 0px 0px 16px;
+  border-radius:${prop => prop.reverse ? '0px 16px 16px 0px ' : '16px 0px 0px 16px'};
   padding: 0.45rem;
 `;
 
-const AlternateSegmentButton = styled.button`
-  background-color: ${(props) =>
-    props.type === "future" ? "white" : "#375a9e"};
-  color: ${(props) => (props.type === "future" ? "black" : "white")};
-  border: 1px solid #f6f6f6;
-  border-radius: 0px 16px 16px 0px;
-  padding: 0.45rem;
-`;
+const AlternateButton=styled(SegmentButton)`
+    background-color: ${prop => prop.instrument==='options' ? '#375a9e' : 'white'};
+  color:${prop => prop.instrument ==='options' ? 'white ' : 'black'};
+`
+
 
 const ButtonSection = styled.div`
   display: flex;

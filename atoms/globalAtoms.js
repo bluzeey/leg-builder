@@ -3,7 +3,6 @@ import { atom } from "recoil";
 export const globalAtom = atom({
   key: "global-atom",
   default: {
-    instrument: "future",
     PositionType: "buy",
     optionType:"buy",
     Lots: 1,
